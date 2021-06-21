@@ -130,6 +130,13 @@ class MinHeap():
     def displayori(self):
         print(self.heap)
 
+    def Cobadis(self):
+        for ele in self.heap:
+            hasil = self.heap
+            hasil = ''.join(i for i in hasil if not i.isdigit())
+            hasil=hasil[3:].replace(')','')
+            print (self.peek(),hasil)
+
 
 # Sudah MAXHeap (Kalau mau MaxHeap tinggal ganti operator doang)
 # class MaxHeap():
@@ -297,7 +304,7 @@ while menu == True:
         print("Masukan Task : ")
         wrd = input()
         print("Masukan Prioritynya (Angka Terkecil Prioritas Tertinggi) : ")
-        prion = input()
+        prion = int(input())
 
         mnheap.add(prion,wrd)
         # AddData(mnheap,2,"hi2")
@@ -311,6 +318,7 @@ while menu == True:
         mnheap.diskata()
     elif option == 3:
         print("hi3")
+        mnheap.Cobadis()
     elif option == 4:
         print("hi4")
         mnheap.displayori()
@@ -322,7 +330,6 @@ while menu == True:
     elif option == 7:
         print("hi7")
         menu=False
-
 
 
 
