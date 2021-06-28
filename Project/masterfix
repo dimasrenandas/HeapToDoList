@@ -101,7 +101,7 @@ class Heap():
 
     def display(self):
         if self.size == 0:
-            print("Heap is empty")
+            print("Heap tidak tersedia !")
         elif self.size == 1:
             print("Parent: " + str(self.heap[self.size-1]) + ", Left Child: None, Right Child: None")
         else:
@@ -245,7 +245,7 @@ class Heap():
 
 
 def DisplayMenu():
-    print("1.Add Task\n2.Import Task\n3.Edit Task\n4.Delete Task\n5.Display Task\n6.Do Pop Task\n0/7.Exit")
+    print("1.Add Task\n2.Import Task\n3.Edit Task\n4.Delete Task\n5.Display Task\n6.Do Pop Task\n7.Heap Info\n0.Exit")
 
 dheap = Heap()
 
@@ -292,8 +292,11 @@ while menu == True:
         print("Berhasil Menyelesaikan Task :")
         print(dheap.peek())
         dheap.remove()
+
+    elif option == 7:
+       dheap.display()
       
-    elif option == 0 or option == 7:
+    elif option == 0 or option == 8:
         print("Program Stoped...")
         menu=False
 
