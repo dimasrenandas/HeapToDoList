@@ -257,7 +257,7 @@ class Heap():
                 self.maxsize-=1
                 self.size-=1
                 break
-                #self.heapifyup()
+                self.heapifyup()
             else:
                 print ("Tidak dapat menemukan")
                 print(teawal)
