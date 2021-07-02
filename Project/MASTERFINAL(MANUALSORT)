@@ -1,0 +1,420 @@
+import os
+
+
+class colors():
+	reset='\033[0m'
+	bold='\033[01m'
+	disable='\033[02m'
+	underline='\033[04m'
+	reverse='\033[07m'
+	strikethrough='\033[09m'
+	invisible='\033[08m'
+	class fg:
+		black='\033[30m'
+		red='\033[31m'
+		green='\033[32m'
+		orange='\033[33m'
+		blue='\033[34m'
+		purple='\033[35m'
+		cyan='\033[36m'
+		lightgrey='\033[37m'
+		darkgrey='\033[90m'
+		lightred='\033[91m'
+		lightgreen='\033[92m'
+		yellow='\033[93m'
+		lightblue='\033[94m'
+		pink='\033[95m'
+		lightcyan='\033[96m'
+	class bg:
+		black='\033[40m'
+		red='\033[41m'
+		green='\033[42m'
+		orange='\033[43m'
+		blue='\033[44m'
+		purple='\033[45m'
+		cyan='\033[46m'
+		lightgrey='\033[47m'
+
+
+
+class Heap():
+    #tasknya = Task()
+    def __init__(self):
+        self.heap = []
+
+        disdata = []
+
+        #Untuk menandai maximum size yang pernah dicapai
+        self.maxsize = int(0)
+
+        #Untuk menandai real time size
+        self.size = int(0)
+
+    def isroot(self,index):
+        if index == 0:
+            return True
+        return False
+    
+    def isleaf(self,index):
+        if index >= self.size//2 and index <= self.size:
+            return True
+        return False
+
+    def getparent(self, index):
+        if self.isroot(index):
+            return None
+        return (index-1)//2
+
+    def getleftchild(self,index):
+        if self.isleaf(index):
+            return None
+        return (index*2)+1
+
+    def getrightchild(self,index):
+        if self.isleaf(index):
+            return None
+        elif (index*2)+2 >= self.size:
+                return None
+        return (index*2)+2
+
+    def swap(self,src,dest):
+        self.heap[src], self.heap[dest] = self.heap[dest], self.heap[src]
+        #compare antar parent
+    def heapifyup(self):
+        cur = self.size-1
+        if self.size>1:
+          while(self.heap[self.getparent(cur)] > self.heap[cur]): #membandingkan parent current dengan anak dari parent current
+                self.swap(cur,self.getparent(cur))
+                cur = self.getparent(cur)
+                if self.getparent(cur) == None:
+                    break
+        #compare 2 anak dengan parent
+    def heapifydown(self):
+        cur = 0
+        if self.size == 2:
+            if self.getrightchild(cur) != None:
+                if self.heap[self.getleftchild(cur)] < self.heap[self.getrightchild(cur)]:
+                    self.swap(cur,self.getleftchild(cur))
+                    cur = self.getleftchild(cur)
+                else:
+                    self.swap(cur,self.getrightchild(cur))
+                    cur = self.getrightchild(cur)
+            else:
+                if self.heap[self.getleftchild(cur)] < self.heap[cur]:
+                    self.swap(cur,self.getleftchild(cur))
+        elif self.size>=3:
+            while(self.heap[cur] > self.heap[self.getleftchild(cur)] or self.heap[cur] > self.heap[self.getrightchild(cur)]):
+                self.getleftchild(cur)
+                if self.heap[self.getleftchild(cur)] < self.heap[self.getrightchild(cur)]:
+                    self.swap(cur,self.getleftchild(cur))
+                    cur = self.getleftchild(cur)
+                else:
+                    self.swap(cur,self.getrightchild(cur))
+                    cur = self.getrightchild(cur)
+                if self.getleftchild(cur) == None or self.getrightchild(cur) == None:
+                    
+                    break                 
+    
+    def add(self,data,str):
+        self.size+=1
+        if self.size > self.maxsize:
+            self.heap.append((data,str))
+            self.maxsize+=1
+        else:
+            self.heap[self.size-1] = data
+        self.heapifyup()
+
+    def Pop(self):
+        self.heap[0]=self.heap[self.size-1] #9
+        del self.heap[self.size-1] #1
+        self.size-=1
+        self.heapifydown()
+        #self.heapify()
+      
+    def heapify(self):
+        tempheap=self.heap
+
+        self.heap = []
+
+        disdata = []
+
+        #Untuk menandai maximum size yang pernah dicapai
+        self.maxsize = int(0)
+
+        #Untuk menandai real time size
+        self.size = int(0)
+        for isi in tempheap:
+            self.size+=1
+            if self.size > self.maxsize:
+                self.heap.append(isi)
+                self.maxsize+=1
+                #self.heapifydown()
+            else:
+                self.heap[self.size-1] = data   
+            self.heapifyup()        
+
+    def display(self):
+        if self.size == 0:
+            print("Heap tidak tersedia !")
+        elif self.size == 1:
+            print("Parent: " + str(self.heap[self.size-1]) + ", Left Child: None, Right Child: None")
+        else:
+            for i in range(0,(self.size//2)):
+                result = "Parent: " + str(self.heap[i])
+                if self.getleftchild(i)!=None:
+                    result = result + ", Left Child: " + str(self.heap[self.getleftchild(i)])
+                else:
+                    result = result + ", Left Child: None"
+                if self.getrightchild(i)!=None:
+                    result = result+ ", Right Child: " + str(self.heap[self.getrightchild(i)])
+                else:
+                    result = result + ", Right Child: None" 
+                print(result + ".")
+
+    def peek(self):
+        if self.size>0:
+            return self.heap[0]
+        return None
+    def diskata(self):
+        tempp=self
+        for ele in self.heap:
+            hasil = str(tempp.peek())
+            hasil = ''.join(i for i in hasil if not i.isdigit())
+            hasil=hasil[3:].replace(')','')
+            print (tempp.peek(),hasil)
+            tempp.Pop()
+
+    def displayori(self):
+        print(self.heap)
+        print ("")
+        disdata = self.heap
+        #disdata.sort()
+        cont = 0
+        print ("==============")
+        print ("Today's Task : ")
+        print ("==============")
+        if not disdata:
+            print ('Nothing To Do Today !')
+        else:
+         strtodo = disdata#([x[1] for x in disdata])
+         priotodo = disdata#([x[0] for x in disdata])
+         temp = 0;    
+         for i in range(0, len(disdata)):    
+             for j in range(i+1, len(disdata)):    
+              if(priotodo[i] > priotodo[j]):    
+                    temp = priotodo[i];    
+                    priotodo[i] = priotodo[j];    
+                    priotodo[j] = temp;
+
+         #for lihat in strtodo:
+         #    cont+=1
+         #print (cont,"." ,[x[1] for x in disdata] , sep='')
+         #print ("")
+         for lihat in priotodo:
+             cont+=1
+             print (cont,".",lihat,sep='')
+         print ("")
+
+    #def Cobadis(self):
+    #    for ele in self.heap:
+    #        hasil = str(ele)
+    #        hasil=hasil[1:].replace(')','')
+    #        hasil=hasil.replace("'","")
+    #        hasil=hasil.replace(" ","")
+    #        print (hasil)
+
+    #def editdis(self):
+    #    print ("Task Yang mau di edit : ")
+    #    teawal=input()
+    #    print ("Ubah Task menjadi : ")
+    #    teedit=input()
+    #    print ("Prio Menjadi : ")
+    #    pedit=int(input())
+    #    tempp=self
+    #    cont=0
+    #    for ele in self.heap:
+    #        hasil = str(tempp.peek())
+    #        hasil = ''.join(i for i in hasil if not i.isdigit())
+    #        hasil=hasil[3:].replace(')','')
+    #        print (tempp.peek(),hasil)
+    #        print (ele)
+    #        if hasil == teawal:
+    #            print(teawal)
+    #            #self.heap[cont] =
+    #            #self.heapify()
+    #        else:
+    #            print(teawal)
+ 
+
+    def neweditdis(self):
+        print ("Task Yang mau di edit : ")
+        teawal=input()
+        print ("Ubah Task menjadi : ")
+        teedit=input()
+        print ("Prio Menjadi : ")
+        pedit=int(input())
+        tempp=self
+        cont=0
+        for ele in range(len(self.heap)):
+            hasil = str(self.heap[ele])
+            hasil = ''.join(i for i in hasil if not i.isdigit())
+            hasil=hasil[3:].replace(')','')
+            print (self.heap[ele],hasil)
+            print (ele)
+            if hasil == teawal:
+                print(teawal)
+                self.heap[ele] = ((pedit,teedit))
+                self.heapifydown()
+                self.heapify()
+            else:
+                print(teawal)
+
+    def deldis(self):
+        print ("Task Yang mau di selesaikan atau hapus : ")
+        teawal=input()
+        tempp=self
+        cont=0
+        for ele in range(len(self.heap)):
+            hasil = str(self.heap[ele])
+            hasil = ''.join(i for i in hasil if not i.isdigit())
+            hasil=hasil[3:].replace(')','')
+            print (self.heap[ele],hasil)
+            print (ele)
+            if hasil == teawal:
+                print(teawal)
+                del self.heap[ele]
+                self.size-=1
+                self.heapifydown()
+                self.heapify()
+                break;
+            else:
+                print ("Tidak dapat menemukan")
+                print(teawal)
+
+    def ImportTaskFile(self):
+        self.heap = []
+
+        self.maxsize = int(0)
+
+        self.size = int(0)
+
+        print ('Nama file yang mau di import : ')
+
+        filenama=input()
+ 
+        f = open (filenama,'r')
+        isi = f.readlines()
+        count = 0
+        for line in isi:
+            count += 1
+            temp=line.strip()
+            #print (temp)
+            hasil = temp.split(',')
+            #print(hasil)
+            self.add(int(hasil[0]),hasil[1])
+        #print (isi)
+        print("Berhasil Import Task!")
+        os.system("pause")
+        os.system("cls")
+        f.close()
+
+    def ExportTaskFile(self):
+       print ('Nama Output File : ')
+       namafile=input()
+       hitnomor=0
+       coba=True
+       while coba is True:
+           hitnomor+=1
+           try:
+            f=open(namafile)
+            namafile+=str(hitnomor)
+           # Code here
+           except FileNotFoundError:
+               print ('Menyimpan file dengan nama : ')
+               print (namafile)
+               newf = open(namafile, "x")
+               for ele in self.heap:
+                        hasil = str(ele)
+                        hasil=hasil[1:].replace(')','')
+                        hasil=hasil.replace("'","")
+                        hasil=hasil.replace(" ","")
+                        print (hasil)
+                        hasil+="\n"
+                        newf.write(hasil,)
+               newf.close()
+               break
+
+def sorttask(arr):   
+     temp = 0;    
+     for i in range(0, len(arr)):    
+        for j in range(i+1, len(arr)):    
+            if(arr[i] > arr[j]):    
+                temp = arr[i];    
+                arr[i] = arr[j];    
+                arr[j] = temp;   
+
+def DisplayMenu():
+   #print(colors.bg.lightgrey, "hi", colors.fg.red, "test123")
+   #print(colors.bg.green, "wassupp", colors.fg.red, "makankuyyy")
+   print ("===================")
+   print ("Heap To Do List")
+   print ("===================")
+   print("1.Add Task\n2.Import Task\n3.Edit Task\n4.Delete or Do Task\n5.Display Task\n6.Do Pop Task\n7.Heap Info\n8.Save Export To File\n0.Exit")
+
+dheap = Heap()
+
+os.system('color 97')
+
+menu = True
+
+option = 0
+
+while menu == True:
+    DisplayMenu()
+    print("Choose : ")
+    option = int(input())
+
+    if option == 1:
+        print("Masukan Task : ")
+        wrd = input()
+        print("Masukan Prioritynya (Angka Terkecil Prioritas Tertinggi) : ")
+        prion = int(input())
+
+        dheap.add(prion,wrd)
+
+    elif option == 2:
+        dheap.ImportTaskFile()
+
+    elif option == 3:
+        #mnheap.diskata()
+        print("Edit Task")
+        dheap.neweditdis()
+
+        #dheap.Cobadis()
+    elif option == 4:
+        print("Delete Task")
+        dheap.deldis()
+
+
+    elif option == 5:
+        print ("======")
+        print("Heap : ")
+        print ("======")
+        print ("")
+        dheap.displayori()
+        os.system("pause")
+        os.system("cls")
+    elif option == 6:
+        print("Berhasil Menyelesaikan Task :")
+        print(dheap.peek())
+        dheap.Pop()
+
+    elif option == 7:
+       dheap.display()
+
+    elif option == 8:
+       dheap.ExportTaskFile()
+       #dheap.Cobadis()
+    elif option == 0 or option == 9:
+        print("Program Stoped...")
+        menu=False
