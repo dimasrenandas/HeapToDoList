@@ -202,7 +202,7 @@ class Heap():
         print(self.heap)
         print ("")
         disdata = self.heap
-        #disdata.sort()
+        disdata.sort()
         cont = 0
         print ("==============")
         print ("Today's Task : ")
