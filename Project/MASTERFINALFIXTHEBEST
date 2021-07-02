@@ -210,14 +210,11 @@ class Heap():
         if not disdata:
             print ('Nothing To Do Today !')
         else:
-          for see in disdata:
-            hasil = str(see)
-            hasil = ''.join(i for i in hasil if not i.isdigit())
-            hasil=hasil[3:].replace("'",'')
-            hasil=hasil.replace(')','')
-            cont+=1
-            print (cont ,".", hasil, sep = '')
-        print ("")
+         strtodo = ([x[1] for x in disdata])
+         for lihat in strtodo:
+             cont+=1
+             print (cont , "." , lihat  , sep='')
+         print ("")
 
     def Cobadis(self):
         for ele in self.heap:
