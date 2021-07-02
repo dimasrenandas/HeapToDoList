@@ -1,13 +1,6 @@
 import os
-# class Task:
-#   def __init__(self):
-#     self.taskstr = []
 
-#   def add(self,strtask):
-#     self.taskstr.append(strtask)
 
-# Python program to print
-# colored text and background
 class colors():
 	reset='\033[0m'
 	bold='\033[01m'
@@ -122,15 +115,14 @@ class Heap():
                     
                     break                 
     
-    def add(self,data,strtask):
+    def add(self,data,str):
         self.size+=1
         if self.size > self.maxsize:
-            self.heap.append((data,strtask))
+            self.heap.append((data,str))
             self.maxsize+=1
-            #self.heapifydown()
         else:
             self.heap[self.size-1] = data
-            self.heapifyup()
+        self.heapifyup()
 
     def Pop(self):
         self.heap[0]=self.heap[self.size-1] #9
