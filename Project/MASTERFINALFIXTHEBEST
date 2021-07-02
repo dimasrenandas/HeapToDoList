@@ -120,9 +120,7 @@ class Heap():
                     cur = self.getrightchild(cur)
                 if self.getleftchild(cur) == None or self.getrightchild(cur) == None:
                     
-                    break
-     
-                    
+                    break                 
     
     def add(self,data,strtask):
         self.size+=1
@@ -134,7 +132,7 @@ class Heap():
             self.heap[self.size-1] = data
             self.heapifyup()
 
-    def remove(self):
+    def Pop(self):
         self.heap[0]=self.heap[self.size-1] #9
         del self.heap[self.size-1] #1
         self.size-=1
@@ -161,11 +159,7 @@ class Heap():
                 #self.heapifydown()
             else:
                 self.heap[self.size-1] = data   
-            self.heapifyup()
-
-
-        
-        
+            self.heapifyup()        
 
     def display(self):
         if self.size == 0:
@@ -196,7 +190,7 @@ class Heap():
             hasil = ''.join(i for i in hasil if not i.isdigit())
             hasil=hasil[3:].replace(')','')
             print (tempp.peek(),hasil)
-            tempp.remove()
+            tempp.Pop()
 
     def displayori(self):
         print(self.heap)
@@ -216,35 +210,35 @@ class Heap():
              print (cont , "." , lihat  , sep='')
          print ("")
 
-    def Cobadis(self):
-        for ele in self.heap:
-            hasil = str(ele)
-            hasil=hasil[1:].replace(')','')
-            hasil=hasil.replace("'","")
-            hasil=hasil.replace(" ","")
-            print (hasil)
+    #def Cobadis(self):
+    #    for ele in self.heap:
+    #        hasil = str(ele)
+    #        hasil=hasil[1:].replace(')','')
+    #        hasil=hasil.replace("'","")
+    #        hasil=hasil.replace(" ","")
+    #        print (hasil)
 
-    def editdis(self):
-        print ("Task Yang mau di edit : ")
-        teawal=input()
-        print ("Ubah Task menjadi : ")
-        teedit=input()
-        print ("Prio Menjadi : ")
-        pedit=int(input())
-        tempp=self
-        cont=0
-        for ele in self.heap:
-            hasil = str(tempp.peek())
-            hasil = ''.join(i for i in hasil if not i.isdigit())
-            hasil=hasil[3:].replace(')','')
-            print (tempp.peek(),hasil)
-            print (ele)
-            if hasil == teawal:
-                print(teawal)
-                #self.heap[cont] =
-                #self.heapify()
-            else:
-                print(teawal)
+    #def editdis(self):
+    #    print ("Task Yang mau di edit : ")
+    #    teawal=input()
+    #    print ("Ubah Task menjadi : ")
+    #    teedit=input()
+    #    print ("Prio Menjadi : ")
+    #    pedit=int(input())
+    #    tempp=self
+    #    cont=0
+    #    for ele in self.heap:
+    #        hasil = str(tempp.peek())
+    #        hasil = ''.join(i for i in hasil if not i.isdigit())
+    #        hasil=hasil[3:].replace(')','')
+    #        print (tempp.peek(),hasil)
+    #        print (ele)
+    #        if hasil == teawal:
+    #            print(teawal)
+    #            #self.heap[cont] =
+    #            #self.heapify()
+    #        else:
+    #            print(teawal)
 
     def neweditdis(self):
         print ("Task Yang mau di edit : ")
@@ -400,7 +394,7 @@ while menu == True:
     elif option == 6:
         print("Berhasil Menyelesaikan Task :")
         print(dheap.peek())
-        dheap.remove()
+        dheap.Pop()
 
     elif option == 7:
        dheap.display()
